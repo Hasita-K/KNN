@@ -10,6 +10,9 @@
     "format": "oxfmt"
   },
   "dependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
     "@supabase/server": "^1.7.0",
     "@supabase/supabase-js": "^2.116.0",
     "react": "^19.0.0",

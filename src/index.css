@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --color-sky-clay: #87CEEB;
+  --color-grass: #6BAE45;
+  --color-grass-dark: #4E8A2F;
+  --color-clay: #C4844A;
+  --color-clay-light: #DCA67A;
+  --color-clay-dark: #9E6030;
+  --color-cream: #FDF6E8;
+  --color-warm: #F5E6CC;
+  --color-terracotta: #D4783A;
+  --color-terracotta-dark: #B05A1E;
+  --color-parchment: #F0D9B5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+/* Hide scrollbars but allow scroll */
+.scrollable {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+/* Village dropdown — always-visible gray scrollbar when overflowing */
+.village-dropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1A2A10;
+}
+.village-dropdown::-webkit-scrollbar {
+  width: 7px;
+}
+.village-dropdown::-webkit-scrollbar-track {
+  background: #1A2A10;
+  border-left: 1px solid #0A1A04;
+}
+.village-dropdown::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 0;
+}
+.village-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Village scene */
+.village-sky {
+  background: linear-gradient(180deg, #5BB8F5 0%, #87CEEB 40%, #B8E4F0 70%, #C8EDBA 100%);
+}
+
+/* Hut shape */
+.hut-roof {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Bottom sheet */
+.bottom-sheet {
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+/* Fridge door swing */
+.fridge-view {
+  animation: fadeSlideUp 0.3s ease-out;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Food badge pop */
+.food-badge {
+  animation: popIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Hut wiggle on hover */
+.hut-wrapper:active {
+  animation: wiggle 0.3s ease;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* Cloud float */
+.cloud {
+  animation: float 6s ease-in-out infinite;
+}
+.cloud-2 {
+  animation: float 8s ease-in-out infinite reverse;
+  animation-delay: -3s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Food icon orbit — each icon runs this; stagger via negative delay */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); }
+}
+
+/* Stars/sparkle for buttons */
+.btn-primary {
+  box-shadow: 0 4px 0 #9E5020, 0 0 0 2px #F5D5B0 inset;
+  transition: all 0.1s;
+}
+.btn-primary:active {
+  box-shadow: 0 1px 0 #9E5020, 0 0 0 2px #F5D5B0 inset;
+  transform: translateY(3px);
+}
+
+.btn-green {
+  box-shadow: 0 4px 0 #3A7022, 0 0 0 2px #B8F080 inset;
+  transition: all 0.1s;
+}
+.btn-green:active {
+  box-shadow: 0 1px 0 #3A7022, 0 0 0 2px #B8F080 inset;
+  transform: translateY(3px);
+}
+
+.btn-red {
+  box-shadow: 0 4px 0 #7A1A1A, 0 0 0 2px #FFAAAA inset;
+  transition: all 0.1s;
+}
+.btn-red:active {
+  box-shadow: 0 1px 0 #7A1A1A, 0 0 0 2px #FFAAAA inset;
+  transform: translateY(3px);
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Manage virtual village homes and fridges by adding friends, tracking food inventory, and sending requests in a cozy, game-inspired interface.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

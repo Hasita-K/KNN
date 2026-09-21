@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { supabase } from './supabaseClient'
 import house1Src from './imports/house1.png'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -459,12 +460,42 @@ export default function App() {
       const ORBIT_R = 168   // px from center — large enough to ring the screen
       const ORBIT_DUR = 18  // seconds per full revolution
 
-      const handleAuth = () => {
+     
+
+      const handleAuth = async () => {
         if (!authUser.trim() || (titlePhase === 'signup' && !authPhone.trim())) {
           setAuthError('Please fill in all fields.')
           return
         }
         setAuthError('')
+
+        if(titlePhase === 'signup'){
+          const { data, error } = await supabase.auth.signUp({
+            email: `${authUser.trim()}@yourapp.local`,
+            password: authPhone.trim(),
+           
+          })
+          if (error) { setAuthError(error.message); return}
+
+          if(data.user){
+            const friendCode = Math.random().toString(36).slice(2, 8).toUpperCase()
+            const { error: profileError} = await supabase.from('profiles').insert({
+              id: data.user.id,
+              username: authUser.trim(),
+              phone_number: authPhone.trim(),
+              unique_friend_code: friendCode,
+
+            })
+            if(profileError) { setAuthError(profileError.message); return}
+
+          }
+        } else {
+          const{ error } = await supabase.auth.signInWithPassword({
+            email: `${authUser.trim()}@yourapp.local`,
+            password: authPhone.trim(),
+          })
+          if (error) { setAuthError(error.message); return }
+        }
         setView({ type: 'home' })
       }
 

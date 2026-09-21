@@ -290,6 +290,7 @@ export default function App() {
   const [authUser, setAuthUser] = useState('')
   const [authPhone, setAuthPhone] = useState('')
   const [authError, setAuthError] = useState('')
+  const [authPassword, setAuthPassword] = useState('')
   const [villages, setVillages] = useState<Village[]>([
     { id: 'v1', name: 'Clayville', friends: INITIAL_FRIENDS }
   ])
@@ -456,6 +457,7 @@ export default function App() {
 
     // ── Title screen ──────────────────────────────────────────────────────────
     if (view.type === 'title') {
+
       const N = FOOD_ICONS.length
       const ORBIT_R = 168   // px from center — large enough to ring the screen
       const ORBIT_DUR = 18  // seconds per full revolution
@@ -463,39 +465,33 @@ export default function App() {
      
 
       const handleAuth = async () => {
-        if (!authUser.trim() || (titlePhase === 'signup' && !authPhone.trim())) {
+        if (!authUser.trim() || !authPassword.trim() || (titlePhase === 'signup' && !authPhone.trim())) {
           setAuthError('Please fill in all fields.')
           return
         }
         setAuthError('')
-
+//start 
         if(titlePhase === 'signup'){
           const { data, error } = await supabase.auth.signUp({
-            email: `${authUser.trim()}@yourapp.local`,
-            password: authPhone.trim(),
+            email: `${authUser.trim()}@kapitbahay.com`,
+            password: authPassword.trim(),
+            options: {
+              data: {
+                username: authUser.trim(),
+                phone_number: authPhone.trim()
+              }
+            }
            
           })
           if (error) { setAuthError(error.message); return}
 
-          if(data.user){
-            const friendCode = Math.random().toString(36).slice(2, 8).toUpperCase()
-            const { error: profileError} = await supabase.from('profiles').insert({
-              id: data.user.id,
-              username: authUser.trim(),
-              phone_number: authPhone.trim(),
-              unique_friend_code: friendCode,
-
-            })
-            if(profileError) { setAuthError(profileError.message); return}
-
-          }
         } else {
           const{ error } = await supabase.auth.signInWithPassword({
             email: `${authUser.trim()}@yourapp.local`,
-            password: authPhone.trim(),
+            password: authPassword.trim(),
           })
           if (error) { setAuthError(error.message); return }
-        }
+        } //stop
         setView({ type: 'home' })
       }
 
@@ -628,8 +624,26 @@ export default function App() {
                           color: '#3A1A00',
                         }}
                       />
+                      
                     </div>
                   )}
+                  <div className="flex flex-col gap-1">
+                    <label style={{fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#6B4A20' }}>PASSWORD</label>
+                    <input
+                    type="password"
+                    value={authPassword}
+                    onChange={e => { setAuthPassword(e.target.value); setAuthError('') }}
+                    placeholder="•••••••"
+                    className="w-full px-3 py-2 focus:outline-none"
+                    style={{
+                      fontFamily: "'Press Start 2P', monospace",
+                      fontSize: 9,
+                      border: '2px solid #C4844A',
+                      backgroundColor: '#FFF8EE',
+                      color: '#3A1A00',
+                    }}
+                    />
+                </div>
                 </div>
 
                 {/* Error */}
